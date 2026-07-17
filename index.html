@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="fr" data-lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Olivier &amp; Annie — Noces d'Émeraude · 40 ans</title>
+<meta name="description" content="1986–2026. Quarante ans d'amour — Olivier &amp; Annie. / Forty years of love.">
+<meta property="og:title" content="Olivier &amp; Annie — Noces d'Émeraude">
+<meta property="og:description" content="1986–2026 · Quarante ans d'amour">
+<meta property="og:image" content="https://tparis7.github.io/noces-emeraude/assets/photo-1.jpg">
+<meta property="og:url" content="https://tparis7.github.io/noces-emeraude/">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#0e1a15">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M32 56C18 44 8 35 8 24a13 13 0 0 1 24-7 13 13 0 0 1 24 7c0 11-10 20-24 32z' fill='%2314664b'/%3E%3C/svg%3E">
+<style>
+  /* ============ Design tokens ============ */
+  :root{
+    --ivory:#f7f1e7;
+    --cream:#efe5d5;
+    --ink:#2b201c;
+    --ink-soft:#5d4d45;
+    --emerald:#14664b;
+    --emerald-bright:#1e8a63;
+    --emerald-deep:#0a3325;
+    --gold:#b98a3e;
+    --gold-light:#d9b877;
+    --pine:#0e1a15;
+    --pine-2:#132119;
+    --serif:"Didot","Bodoni 72","Playfair Display","Georgia","Times New Roman",serif;
+    --sans:"Optima","Avenir Next","Futura","Gill Sans","Segoe UI",system-ui,sans-serif;
+    --ease:cubic-bezier(.22,.8,.24,1);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} }
+  body{
+    background:var(--ivory);
+    color:var(--ink);
+    font-family:var(--sans);
+    font-size:17px;
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  img,video{display:block;max-width:100%}
+  ::selection{background:var(--emerald);color:var(--ivory)}
+
+  /* language switching */
+  [data-lang="fr"] .t-en{display:none!important}
+  [data-lang="en"] .t-fr{display:none!important}
+
+  /* ============ Chrome: progress bar, lang toggle ============ */
+  #progress{position:fixed;top:0;left:0;height:2px;width:0;background:linear-gradient(90deg,var(--emerald),var(--gold));z-index:100}
+  #lang{
+    position:fixed;top:calc(14px + env(safe-area-inset-top));right:16px;z-index:100;
+    display:flex;gap:2px;padding:4px;border-radius:999px;
+    background:rgba(20,12,14,.42);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    border:1px solid rgba(255,244,230,.18);
+  }
+  #lang button{
+    font-family:var(--sans);font-size:11px;letter-spacing:.14em;
+    padding:5px 11px;border-radius:999px;border:0;cursor:pointer;
+    background:transparent;color:rgba(255,244,230,.75);transition:all .3s;
+  }
+  #lang button[aria-pressed="true"]{background:var(--ivory);color:var(--emerald-deep);font-weight:600}
+
+  /* ============ Preloader veil ============ */
+  #veil{
+    position:fixed;inset:0;z-index:200;background:var(--ivory);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;
+    transition:opacity 1s var(--ease),visibility 1s;
+  }
+  #veil.gone{opacity:0;visibility:hidden}
+  #veil .ring{
+    width:86px;height:86px;border-radius:50%;
+    border:1px solid var(--gold);display:flex;align-items:center;justify-content:center;
+    font-family:var(--serif);font-size:26px;color:var(--emerald);
+    animation:breathe 2.6s ease-in-out infinite;
+  }
+  #veil .lbl{font-size:11px;letter-spacing:.42em;text-transform:uppercase;color:var(--ink-soft);padding-left:.42em}
+  @keyframes breathe{0%,100%{transform:scale(1);opacity:.85}50%{transform:scale(1.06);opacity:1}}
+
+  /* ============ Film grain + dust ============ */
+  #grain{
+    position:fixed;inset:-40px;z-index:90;pointer-events:none;opacity:.16;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  /* gold dust: compositor-only CSS particles (no rAF loop) */
+  #dust{position:fixed;inset:0;z-index:80;pointer-events:none;overflow:hidden}
+  #dust i{
+    position:absolute;bottom:-4vh;border-radius:50%;
+    background:radial-gradient(circle, rgba(217,184,119,.75) 0%, rgba(217,184,119,0) 68%);
+    animation:rise var(--dur,22s) linear var(--del,0s) infinite;
+    opacity:0;will-change:transform,opacity;
+  }
+  @keyframes rise{
+    0%{transform:translate3d(0,0,0);opacity:0}
+    10%{opacity:var(--a,.5)}
+    50%{transform:translate3d(16px,-56vh,0);opacity:calc(var(--a,.5)*.7)}
+    100%{transform:translate3d(-12px,-112vh,0);opacity:0}
+  }
+  @media (prefers-reduced-motion: reduce){#dust{display:none}}
+
+  /* ============ Reveal machinery ============ */
+  .reveal{opacity:0;transform:translateY(30px);transition:opacity 1.1s var(--ease),transform 1.1s var(--ease);transition-delay:var(--d,0s)}
+  .reveal.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion: reduce){
+    .reveal{opacity:1;transform:none;transition:none}
+  }
+
+  /* ============ Hero ============ */
+  #hero{
+    position:relative;height:100vh;height:100svh;min-height:560px;
+    background:var(--pine);overflow:hidden;
+  }
+  #hero .media{position:absolute;inset:0}
+  #hero img.still, #hero video{
+    position:absolute;inset:0;width:100%;height:100%;
+    object-fit:cover;object-position:50% 30%;
+  }
+  #hero img.still{transform:scale(1.06);animation:kenburns 26s var(--ease) forwards}
+  @keyframes kenburns{from{transform:scale(1.12)}to{transform:scale(1.03)}}
+  @media (prefers-reduced-motion: reduce){#hero img.still{animation:none;transform:none}}
+  #hero video{opacity:0;transition:opacity 1.1s ease}
+  #hero.playing video{opacity:1}
+  #hero .scrim{
+    position:absolute;inset:0;
+    background:
+      radial-gradient(120% 90% at 50% 30%, transparent 40%, rgba(18,9,11,.38) 100%),
+      linear-gradient(to top, rgba(18,9,11,.88) 0%, rgba(18,9,11,.32) 34%, transparent 60%),
+      linear-gradient(to bottom, rgba(18,9,11,.5) 0%, transparent 22%);
+  }
+  #hero .content{
+    position:absolute;left:0;right:0;bottom:0;z-index:5;
+    padding:0 24px calc(92px + env(safe-area-inset-bottom));
+    text-align:center;color:var(--ivory);
+  }
+  @media (max-height:620px){ #scrollcue{display:none} #hero .content{padding-bottom:calc(48px + env(safe-area-inset-bottom))} }
+  .eyebrow{
+    font-size:12px;letter-spacing:.5em;text-transform:uppercase;color:var(--gold-light);
+    padding-left:.5em; /* optical centering vs letter-spacing */
+  }
+  #hero h1{
+    font-family:var(--serif);font-weight:400;
+    font-size:clamp(46px, 9.5vw, 118px);
+    line-height:1.04;letter-spacing:.01em;margin:14px 0 6px;
+    text-wrap:balance;
+  }
+  #hero h1 .amp{color:var(--gold-light);font-style:italic;margin:0 .08em}
+  #hero .years{
+    display:flex;align-items:center;justify-content:center;gap:16px;
+    font-family:var(--serif);font-size:clamp(16px,2.4vw,22px);letter-spacing:.34em;color:rgba(255,246,235,.92);
+    margin-top:10px;
+  }
+  #hero .years::before,#hero .years::after{content:"";height:1px;width:min(9vw,70px);background:linear-gradient(90deg,transparent,var(--gold-light));opacity:.75}
+  #hero .years::after{background:linear-gradient(90deg,var(--gold-light),transparent)}
+  #hero .sub{font-family:var(--serif);font-style:italic;font-size:clamp(17px,2.6vw,24px);color:rgba(255,246,235,.85);margin-top:12px}
+  #hero .ctrls{
+    position:absolute;right:16px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:6;
+    display:flex;gap:8px;opacity:0;transition:opacity .8s;
+  }
+  #hero .ctrls.show{opacity:1}
+  .chip{
+    font-family:var(--sans);font-size:12px;letter-spacing:.06em;
+    color:rgba(255,246,235,.92);background:rgba(20,12,14,.44);
+    border:1px solid rgba(255,244,230,.22);border-radius:999px;
+    padding:8px 14px;cursor:pointer;
+    backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    transition:background .3s,border-color .3s;
+  }
+  .chip:hover{background:rgba(20,102,75,.55);border-color:rgba(255,244,230,.4)}
+  #scrollcue{
+    position:absolute;left:50%;bottom:calc(10px + env(safe-area-inset-bottom));transform:translateX(-50%);z-index:6;
+    display:flex;flex-direction:column;align-items:center;gap:8px;color:rgba(255,246,235,.6);
+    font-size:10px;letter-spacing:.34em;text-transform:uppercase;padding-left:.34em;
+  }
+  #scrollcue .line{width:1px;height:34px;background:rgba(255,246,235,.4);overflow:hidden;position:relative}
+  #scrollcue .line::after{content:"";position:absolute;top:-40%;left:0;width:100%;height:40%;background:var(--gold-light);animation:drip 2.2s ease-in-out infinite}
+  @keyframes drip{to{top:110%}}
+  @media (prefers-reduced-motion: reduce){#scrollcue .line::after{animation:none}}
+
+  /* ============ Shared section bones ============ */
+  section{position:relative}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+  .sec-label{
+    display:flex;align-items:center;gap:18px;
+    font-size:11px;letter-spacing:.44em;text-transform:uppercase;color:var(--emerald);
+  }
+  .sec-label::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--gold),transparent);opacity:.5}
+  .dark .sec-label{color:var(--gold-light)}
+
+  /* ============ Intro : quarante ans ============ */
+  #quarante{padding:110px 0 96px;background:
+    radial-gradient(90% 60% at 50% 0%, rgba(185,138,62,.10), transparent 60%),
+    var(--ivory)}
+  #quarante .wrap{display:grid;grid-template-columns:auto 1fr;gap:8px 56px;align-items:center}
+  #big40{
+    font-family:var(--serif);color:var(--emerald);
+    font-size:clamp(140px, 26vw, 300px);line-height:.86;letter-spacing:-.02em;
+    font-variant-numeric:lining-nums;
+    text-shadow:0 1px 0 rgba(10,51,37,.15);
+  }
+  #big40 small{display:block;font-size:clamp(20px,3.4vw,34px);letter-spacing:.5em;text-transform:uppercase;color:var(--gold);margin-top:14px;padding-left:.1em}
+  #quarante .copy{max-width:520px}
+  #quarante h2{font-family:var(--serif);font-weight:400;font-size:clamp(28px,4.2vw,44px);line-height:1.15;margin:20px 0 18px;color:var(--ink)}
+  #quarante p{color:var(--ink-soft);font-size:17.5px}
+  #quarante .facts{display:flex;gap:34px;margin-top:30px;flex-wrap:wrap}
+  #quarante .facts div{border-left:1px solid var(--gold);padding-left:14px}
+  #quarante .facts b{display:block;font-family:var(--serif);font-weight:400;font-size:26px;color:var(--emerald);font-variant-numeric:lining-nums}
+  #quarante .facts span{font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-soft)}
+  @media (max-width:760px){
+    #quarante .wrap{grid-template-columns:1fr;gap:34px;text-align:left}
+  }
+
+  /* ============ Chapters ============ */
+  #chapitres{background:linear-gradient(var(--ivory), var(--cream));padding:40px 0 130px}
+  .chapter{
+    display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(30px,6vw,84px);
+    align-items:center;max-width:1140px;margin:0 auto;padding:90px 24px 0;
+  }
+  .chapter.flip{grid-template-columns:.85fr 1.15fr}
+  .chapter.flip figure{order:2}
+  .chapter figure{position:relative}
+  .frame{
+    position:relative;overflow:hidden;border-radius:4px;
+    box-shadow:0 30px 70px -26px rgba(43,22,20,.5), 0 6px 22px -10px rgba(43,22,20,.28);
+  }
+  .frame::after{ /* inner hairline like a printed border */
+    content:"";position:absolute;inset:0;border:1px solid rgba(255,255,255,.35);
+    border-radius:inherit;pointer-events:none;mix-blend-mode:overlay;
+  }
+  .frame img{width:100%;height:auto;transform:scale(1.001);will-change:transform}
+  .chapter .num{
+    position:absolute;z-index:0;top:-74px;font-family:var(--serif);
+    font-size:clamp(110px,15vw,180px);line-height:1;color:transparent;
+    -webkit-text-stroke:1px rgba(20,102,75,.28);pointer-events:none;user-select:none;
+  }
+  .chapter .txt{position:relative;z-index:1}
+  .chapter h3{font-family:var(--serif);font-weight:400;font-size:clamp(30px,4.6vw,48px);line-height:1.1;margin:16px 0 14px;color:var(--ink)}
+  .chapter p{color:var(--ink-soft);max-width:44ch}
+  .duo{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media (max-width:820px){
+    .chapter,.chapter.flip{grid-template-columns:1fr;gap:26px;padding-top:76px}
+    .chapter.flip figure{order:0}
+    .chapter .num{top:-58px}
+  }
+
+  /* ============ Restoration ============ */
+  #atelier{background:
+    radial-gradient(120% 70% at 50% 0%, var(--pine-2), var(--pine) 70%);
+    color:var(--ivory);padding:110px 0 130px;
+  }
+  #atelier h2{font-family:var(--serif);font-weight:400;font-size:clamp(30px,4.8vw,52px);margin:18px 0 16px}
+  #atelier .lead{color:rgba(255,244,230,.72);max-width:60ch}
+  #atelier .hint{
+    display:inline-flex;align-items:center;gap:10px;margin-top:14px;
+    font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold-light);
+  }
+  #atelier .hint svg{animation:nudge 2.4s ease-in-out infinite}
+  @keyframes nudge{0%,100%{transform:translateX(0)}50%{transform:translateX(7px)}}
+  @media (prefers-reduced-motion: reduce){#atelier .hint svg{animation:none}}
+
+  .ba{
+    position:relative;overflow:hidden;border-radius:6px;isolation:isolate;
+    box-shadow:0 34px 80px -30px rgba(0,0,0,.75);
+    background:#0d0708;
+    touch-action:pan-y; /* keep vertical scroll working on the photo */
+  }
+  .ba img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none}
+  .ba .after{position:relative;z-index:0}
+  .ba .before{z-index:1;clip-path:inset(0 calc(100% - var(--pos,50%)) 0 0)}
+  .ba .divider{
+    position:absolute;z-index:3;top:0;bottom:0;left:var(--pos,50%);width:1px;
+    background:rgba(255,246,235,.9);
+    box-shadow:0 0 0 .5px rgba(255,246,235,.35), 0 0 24px rgba(217,184,119,.8);
+    transform:translateX(-.5px);pointer-events:none;
+  }
+  .ba .knob{
+    position:absolute;z-index:4;top:50%;left:var(--pos,50%);transform:translate(-50%,-50%);
+    width:44px;height:44px;border-radius:50%;pointer-events:none;
+    background:rgba(24,13,15,.55);border:1px solid rgba(255,246,235,.65);
+    backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+    display:flex;align-items:center;justify-content:center;gap:5px;
+    color:rgba(255,246,235,.9);font-size:11px;
+  }
+  .ba .knob::before,.ba .knob::after{content:"";border:solid rgba(255,246,235,.9);border-width:0 0 1.5px 1.5px;width:6px;height:6px}
+  .ba .knob::before{transform:rotate(45deg)}
+  .ba .knob::after{transform:rotate(-135deg)}
+  .ba input[type=range]{
+    position:absolute;inset:0;z-index:5;width:100%;height:100%;
+    opacity:0;cursor:ew-resize;margin:0;
+    -webkit-appearance:none;appearance:none;background:transparent;
+  }
+  .ba input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:60px;height:1400px}
+  .ba input[type=range]::-moz-range-thumb{width:60px;height:1400px;border:0;background:transparent}
+  .ba .tag{
+    position:absolute;z-index:2;top:12px;
+    font-size:10px;letter-spacing:.26em;text-transform:uppercase;
+    padding:6px 11px 5px;border-radius:999px;
+    background:rgba(20,12,14,.5);border:1px solid rgba(255,244,230,.25);color:rgba(255,246,235,.85);
+    backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  }
+  .ba .tag.avant{left:12px}
+  .ba .tag.apres{right:12px}
+
+  #atelier .showcase{margin-top:56px}
+  #atelier .grid{
+    margin-top:18px;
+    display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;
+  }
+  #atelier .grid .cell.tall{grid-row:span 2}
+  @media (max-width:720px){
+    #atelier .grid{grid-template-columns:1fr}
+  }
+  #atelier .note{margin-top:26px;font-size:13px;color:rgba(255,244,230,.45);font-style:italic;text-align:center}
+
+  /* ============ Family tree ============ */
+  #arbre{
+    background:
+      radial-gradient(80% 55% at 50% 8%, rgba(185,138,62,.12), transparent 60%),
+      var(--ivory);
+    padding:110px 0 120px;
+  }
+  #arbre h2{font-family:var(--serif);font-weight:400;font-size:clamp(30px,4.6vw,50px);line-height:1.12;margin:18px 0 14px;color:var(--ink)}
+  #arbre .lead{color:var(--ink-soft);max-width:58ch}
+  .tree-wrap{
+    margin-top:46px;overflow-x:auto;overflow-y:hidden;
+    -webkit-overflow-scrolling:touch;
+    padding-bottom:10px;
+  }
+  .tree-wrap svg{display:block;min-width:980px;width:100%;height:auto;margin:0 auto}
+  .tree-hint{display:none;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-top:8px;text-align:center}
+  @media (max-width:1010px){ .tree-hint{display:block} }
+  /* svg text styles */
+  .tgen{font-family:var(--sans);font-size:11px;letter-spacing:.4em;fill:var(--emerald);opacity:.75;text-transform:uppercase}
+  .tname{font-family:var(--serif);font-size:15px;fill:var(--ink)}
+  .tnee{font-family:var(--sans);font-size:10.5px;font-style:italic;fill:var(--ink-soft)}
+  .tinit{font-family:var(--serif);font-style:italic;fill:var(--emerald);opacity:.9}
+  .tyear{font-family:var(--sans);font-size:12px;letter-spacing:.3em;fill:var(--ivory)}
+  .tbud{font-family:var(--sans);font-size:10.5px;letter-spacing:.14em;fill:var(--ink-soft);text-transform:uppercase}
+
+  /* ============ Finale ============ */
+  #finale{
+    background:
+      radial-gradient(90% 70% at 50% 100%, rgba(20,102,75,.14), transparent 60%),
+      linear-gradient(var(--cream), var(--ivory));
+    padding:120px 0 90px;text-align:center;
+  }
+  #finale .arch{
+    width:min(340px,72vw);margin:0 auto 44px;overflow:hidden;
+    border-radius:999px 999px 8px 8px;
+    box-shadow:0 34px 70px -30px rgba(43,22,20,.55);
+    position:relative;
+  }
+  #finale .arch::after{content:"";position:absolute;inset:0;border:1px solid rgba(255,255,255,.4);border-radius:inherit;mix-blend-mode:overlay;pointer-events:none}
+  #finale .arch img{width:100%;height:auto;aspect-ratio:.78;object-fit:cover;object-position:50% 26%}
+  #finale h2{font-family:var(--serif);font-weight:400;font-size:clamp(34px,6vw,64px);color:var(--emerald);line-height:1.08;text-wrap:balance}
+  #finale .msg{max-width:56ch;margin:22px auto 0;color:var(--ink-soft);font-size:18px}
+  #finale .sign{font-family:var(--serif);font-style:italic;font-size:24px;color:var(--ink);margin-top:34px}
+  #finale .sign-sub{font-family:var(--sans);font-style:italic;font-size:14.5px;color:var(--ink-soft);margin-top:10px}
+  #finale .hearts{margin-top:10px;color:var(--emerald);letter-spacing:.4em;padding-left:.4em}
+  footer{
+    background:var(--ivory);padding:30px 24px calc(34px + env(safe-area-inset-bottom));text-align:center;
+    font-size:11px;letter-spacing:.34em;text-transform:uppercase;color:var(--ink-soft);
+  }
+  footer .rn{font-family:var(--serif);font-size:14px;letter-spacing:.3em;color:var(--gold)}
+</style>
+</head>
+<body>
+
+<div id="progress" role="presentation"></div>
+
+<nav id="lang" aria-label="Langue / Language">
+  <button id="btn-fr" aria-pressed="true"  onclick="setLang('fr')">FR</button>
+  <button id="btn-en" aria-pressed="false" onclick="setLang('en')">EN</button>
+</nav>
+
+<div id="veil" aria-hidden="true">
+  <div class="ring">O·A</div>
+  <div class="lbl"><span class="t-fr">Noces d'émeraude</span><span class="t-en">Emerald wedding</span></div>
+</div>
+
+<div id="grain" aria-hidden="true"></div>
+<div id="dust" aria-hidden="true"></div>
+
+<!-- ============ HERO ============ -->
+<header id="hero">
+  <div class="media">
+    <img class="still" id="heroStill" src="assets/photo-1.jpg" alt="Olivier et Annie le jour de leur mariage, 1986" fetchpriority="high">
+    <video id="heroVideo" src="assets/portrait-anime.mp4" preload="auto" muted playsinline aria-label="La photo de mariage s'anime"></video>
+  </div>
+  <div class="scrim"></div>
+
+  <div class="content">
+    <div class="eyebrow reveal in"><span class="t-fr">Noces d'émeraude</span><span class="t-en">Emerald wedding</span></div>
+    <h1>Olivier <span class="amp">&amp;</span> Annie</h1>
+    <div class="years"><span>1986</span><span style="color:var(--gold-light)">·</span><span>2026</span></div>
+    <div class="sub"><span class="t-fr">Quarante ans d'amour</span><span class="t-en">Forty years of love</span></div>
+  </div>
+
+  <div class="ctrls" id="heroCtrls">
+    <button class="chip" id="btnReplay" onclick="heroPlay()"><span class="t-fr">↺ Revoir</span><span class="t-en">↺ Replay</span></button>
+  </div>
+
+  <div id="scrollcue"><span class="t-fr">Défiler</span><span class="t-en">Scroll</span><div class="line"></div></div>
+</header>
+
+<!-- ============ 40 ANS ============ -->
+<section id="quarante">
+  <div class="wrap">
+    <div id="big40" class="reveal" aria-label="40 ans">
+      <span id="countUp">40</span>
+      <small><span class="t-fr">ans</span><span class="t-en">years</span></small>
+    </div>
+    <div class="copy">
+      <div class="sec-label reveal"><span class="t-fr">Il y a quarante ans</span><span class="t-en">Forty years ago</span></div>
+      <h2 class="reveal" style="--d:.1s">
+        <span class="t-fr">En 1986, Olivier a dit oui à Annie — et Annie à Olivier.</span>
+        <span class="t-en">In 1986, Olivier said yes to Annie — and Annie to Olivier.</span>
+      </h2>
+      <p class="reveal" style="--d:.2s">
+        <span class="t-fr">Le quarantième anniversaire de mariage porte le nom de noces d'émeraude&nbsp;: la pierre de l'espérance, celle d'un printemps qui ne finit pas. Quarante ans plus tard, les couleurs des photos avaient passé — pas les sourires.</span>
+        <span class="t-en">The fortieth anniversary is called the emerald wedding: the stone of hope, of a springtime that never ends. Forty years on, the colours of the photographs had faded — the smiles had not.</span>
+      </p>
+      <div class="facts reveal" style="--d:.3s">
+        <div><b>4</b><span class="t-fr">décennies</span><span class="t-en">decades</span></div>
+        <div><b>480</b><span class="t-fr">mois</span><span class="t-en">months</span></div>
+        <div><b>14&nbsp;600<span style="font-size:.6em">+</span></b><span class="t-fr">jours ensemble</span><span class="t-en">days together</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CHAPTERS ============ -->
+<section id="chapitres">
+
+  <article class="chapter">
+    <figure class="reveal">
+      <div class="frame"><img data-kb src="assets/photo-2.jpg" width="1148" height="928" loading="lazy" decoding="async" alt="Olivier et Annie coupent la pièce montée, une église de choux avec leurs prénoms sur deux cœurs"></div>
+    </figure>
+    <div class="txt">
+      <span class="num" aria-hidden="true">I</span>
+      <div class="sec-label reveal"><span class="t-fr">Chapitre I</span><span class="t-en">Chapter I</span></div>
+      <h3 class="reveal" style="--d:.08s"><span class="t-fr">La pièce montée</span><span class="t-en">The pièce montée</span></h3>
+      <p class="reveal" style="--d:.16s">
+        <span class="t-fr">Une église de choux et de sucre glace — et, posés devant, deux cœurs qui portent leurs prénoms&nbsp;: Olivier, Annie. Le premier geste des mariés, fait à quatre mains.</span>
+        <span class="t-en">A church of choux pastry and icing sugar — and, resting at its feet, two hearts bearing their names: Olivier, Annie. The newlyweds' first act, performed with four hands.</span>
+      </p>
+    </div>
+  </article>
+
+  <article class="chapter flip">
+    <figure class="reveal">
+      <div class="frame"><img data-kb src="assets/photo-4.jpg" width="880" height="1192" loading="lazy" decoding="async" alt="Annie, debout derrière Olivier, lit un discours"></div>
+    </figure>
+    <div class="txt">
+      <span class="num" aria-hidden="true">II</span>
+      <div class="sec-label reveal"><span class="t-fr">Chapitre II</span><span class="t-en">Chapter II</span></div>
+      <h3 class="reveal" style="--d:.08s"><span class="t-fr">Le discours</span><span class="t-en">The speech</span></h3>
+      <p class="reveal" style="--d:.16s">
+        <span class="t-fr">Debout derrière Olivier, Annie lit quelques mots à l'assemblée. Le papier a jauni, les mots se sont envolés — l'émotion, elle, se lit encore.</span>
+        <span class="t-en">Standing behind Olivier, Annie reads a few words to the room. The paper has yellowed and the words have flown — but the emotion still shows.</span>
+      </p>
+    </div>
+  </article>
+
+  <article class="chapter">
+    <figure class="reveal">
+      <div class="duo">
+        <div class="frame"><img data-kb src="assets/photo-3.jpg" width="1173" height="912" loading="lazy" decoding="async" alt="Un couple d'invités souriants à la table d'honneur"></div>
+        <div class="frame"><img data-kb src="assets/photo-5.jpg" width="1145" height="928" loading="lazy" decoding="async" alt="Un autre couple d'invités souriants au repas de noces"></div>
+      </div>
+    </figure>
+    <div class="txt">
+      <span class="num" aria-hidden="true">III</span>
+      <div class="sec-label reveal"><span class="t-fr">Chapitre III</span><span class="t-en">Chapter III</span></div>
+      <h3 class="reveal" style="--d:.08s"><span class="t-fr">Les familles</span><span class="t-en">The families</span></h3>
+      <p class="reveal" style="--d:.16s">
+        <span class="t-fr">Autour d'eux ce jour-là, ceux qui les ont vus grandir — réunis à la même table, témoins du premier jour d'une longue histoire.</span>
+        <span class="t-en">Around them that day, the people who watched them grow up — gathered at the same table, witnesses to the first day of a long story.</span>
+      </p>
+    </div>
+  </article>
+
+  <article class="chapter flip">
+    <figure class="reveal">
+      <div class="frame"><img data-kb src="assets/photo-6.jpg" width="1179" height="896" loading="lazy" decoding="async" alt="Olivier et Annie riant sous les serpentins"></div>
+    </figure>
+    <div class="txt">
+      <span class="num" aria-hidden="true">IV</span>
+      <div class="sec-label reveal"><span class="t-fr">Chapitre IV</span><span class="t-en">Chapter IV</span></div>
+      <h3 class="reveal" style="--d:.08s"><span class="t-fr">Le bonheur</span><span class="t-en">Joy</span></h3>
+      <p class="reveal" style="--d:.16s">
+        <span class="t-fr">Les serpentins volent, les rires fusent. S'il ne fallait garder qu'une seule image de ce jour, ce serait peut-être celle-ci.</span>
+        <span class="t-en">Streamers fly, laughter erupts. If only one image of that day could be kept, it might well be this one.</span>
+      </p>
+    </div>
+  </article>
+
+</section>
+
+<!-- ============ RESTORATION ============ -->
+<section id="atelier" class="dark">
+  <div class="wrap">
+    <div class="sec-label reveal"><span class="t-fr">L'atelier du temps</span><span class="t-en">The workshop of time</span></div>
+    <h2 class="reveal" style="--d:.08s">
+      <span class="t-fr">Quarante ans, c'est long — aussi pour une photographie.</span>
+      <span class="t-en">Forty years is a long time — for a photograph, too.</span>
+    </h2>
+    <p class="lead reveal" style="--d:.16s">
+      <span class="t-fr">Les couleurs passent, la lumière brûle le papier, les coins s'usent. Chaque image de cette page a été restaurée avec soin pour ce jour.</span>
+      <span class="t-en">Colours fade, light scars the paper, corners wear away. Every image on this page was carefully restored for this day.</span>
+    </p>
+    <div class="hint reveal" style="--d:.24s">
+      <span class="t-fr">Faites glisser pour remonter le temps</span><span class="t-en">Drag to travel back in time</span>
+      <svg width="26" height="10" viewBox="0 0 26 10" fill="none" aria-hidden="true"><path d="M1 5h22m0 0-4-4m4 4-4 4" stroke="#d9b877" stroke-width="1.4" stroke-linecap="round"/></svg>
+    </div>
+
+    <div class="showcase reveal" style="--d:.1s">
+      <div class="ba" data-ba style="aspect-ratio:1192/880">
+        <img class="after"  src="assets/photo-1.jpg"  alt="" loading="lazy" decoding="async">
+        <img class="before" src="assets/before-1.jpg" alt="" loading="lazy" decoding="async">
+        <span class="tag avant"><span class="t-fr">Avant</span><span class="t-en">Before</span></span>
+        <span class="tag apres"><span class="t-fr">Après</span><span class="t-en">After</span></span>
+        <div class="divider"></div><div class="knob"></div>
+        <input type="range" min="0" max="100" value="50" step="any" aria-label="Comparer avant et après restauration">
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="cell reveal">
+        <div class="ba" data-ba style="aspect-ratio:1148/928">
+          <img class="after" src="assets/photo-2.jpg" alt="" loading="lazy" decoding="async">
+          <img class="before" src="assets/before-2.jpg" alt="" loading="lazy" decoding="async">
+          <span class="tag avant"><span class="t-fr">Avant</span><span class="t-en">Before</span></span>
+          <span class="tag apres"><span class="t-fr">Après</span><span class="t-en">After</span></span>
+          <div class="divider"></div><div class="knob"></div>
+          <input type="range" min="0" max="100" value="50" step="any" aria-label="Comparer avant et après restauration">
+        </div>
+      </div>
+      <div class="cell tall reveal" style="--d:.08s">
+        <div class="ba" data-ba style="aspect-ratio:880/1192;height:100%">
+          <img class="after" src="assets/photo-4.jpg" alt="" loading="lazy" decoding="async">
+          <img class="before" src="assets/before-4.jpg" alt="" loading="lazy" decoding="async">
+          <span class="tag avant"><span class="t-fr">Avant</span><span class="t-en">Before</span></span>
+          <span class="tag apres"><span class="t-fr">Après</span><span class="t-en">After</span></span>
+          <div class="divider"></div><div class="knob"></div>
+          <input type="range" min="0" max="100" value="50" step="any" aria-label="Comparer avant et après restauration">
+        </div>
+      </div>
+      <div class="cell reveal" style="--d:.12s">
+        <div class="ba" data-ba style="aspect-ratio:1173/912">
+          <img class="after" src="assets/photo-3.jpg" alt="" loading="lazy" decoding="async">
+          <img class="before" src="assets/before-3.jpg" alt="" loading="lazy" decoding="async">
+          <span class="tag avant"><span class="t-fr">Avant</span><span class="t-en">Before</span></span>
+          <span class="tag apres"><span class="t-fr">Après</span><span class="t-en">After</span></span>
+          <div class="divider"></div><div class="knob"></div>
+          <input type="range" min="0" max="100" value="50" step="any" aria-label="Comparer avant et après restauration">
+        </div>
+      </div>
+      <div class="cell reveal" style="--d:.06s">
+        <div class="ba" data-ba style="aspect-ratio:1145/928">
+          <img class="after" src="assets/photo-5.jpg" alt="" loading="lazy" decoding="async">
+          <img class="before" src="assets/before-5.jpg" alt="" loading="lazy" decoding="async">
+          <span class="tag avant"><span class="t-fr">Avant</span><span class="t-en">Before</span></span>
+          <span class="tag apres"><span class="t-fr">Après</span><span class="t-en">After</span></span>
+          <div class="divider"></div><div class="knob"></div>
+          <input type="range" min="0" max="100" value="50" step="any" aria-label="Comparer avant et après restauration">
+        </div>
+      </div>
+      <div class="cell reveal" style="--d:.1s">
+        <div class="ba" data-ba style="aspect-ratio:1179/896">
+          <img class="after" src="assets/photo-6.jpg" alt="" loading="lazy" decoding="async">
+          <img class="before" src="assets/before-6.jpg" alt="" loading="lazy" decoding="async">
+          <span class="tag avant"><span class="t-fr">Avant</span><span class="t-en">Before</span></span>
+          <span class="tag apres"><span class="t-fr">Après</span><span class="t-en">After</span></span>
+          <div class="divider"></div><div class="knob"></div>
+          <input type="range" min="0" max="100" value="50" step="any" aria-label="Comparer avant et après restauration">
+        </div>
+      </div>
+    </div>
+
+    <p class="note">
+      <span class="t-fr">Photographies originales de 1986, numérisées puis restaurées en 2026.</span>
+      <span class="t-en">Original photographs from 1986, scanned and restored in 2026.</span>
+    </p>
+  </div>
+</section>
+
+<!-- ============ FAMILY TREE ============ -->
+<section id="arbre">
+  <div class="wrap">
+    <div class="sec-label reveal"><span class="t-fr">L'arbre de vie</span><span class="t-en">The tree of life</span></div>
+    <h2 class="reveal" style="--d:.08s">
+      <span class="t-fr">De ce oui, tout un monde a grandi.</span>
+      <span class="t-en">From that yes, a whole world grew.</span>
+    </h2>
+    <p class="lead reveal" style="--d:.16s">
+      <span class="t-fr">Quatre enfants, puis cinq petits-enfants — bientôt six. Chaque médaillon attend sa photographie.</span>
+      <span class="t-en">Four children, then five grandchildren — soon six. Each medallion awaits its photograph.</span>
+    </p>
+
+    <div class="tree-wrap reveal" style="--d:.1s">
+    <!--
+      Pour ajouter une photo dans un médaillon / to drop a photo into a medallion:
+      inside the <g> of the person (e.g. data-person="thomas"), add:
+        <image x="-41" y="-41" width="82" height="82" preserveAspectRatio="xMidYMid slice"
+               clip-path="url(#pc-thomas)" href="assets/tree/thomas.jpg"/>
+      (grandchildren: x/y = -33, w/h = 66 ; Olivier & Annie: x/y = -53, w/h = 106)
+    -->
+    <svg viewBox="0 0 1240 1170" xmlns="http://www.w3.org/2000/svg" role="img"
+         aria-label="Arbre généalogique : Olivier et Annie Paris, leurs quatre enfants et leurs petits-enfants">
+      <defs>
+        <radialGradient id="medGrad" cx="38%" cy="32%" r="80%">
+          <stop offset="0%" stop-color="#fdfaf3"/>
+          <stop offset="70%" stop-color="#f3ead9"/>
+          <stop offset="100%" stop-color="#e9dcc4"/>
+        </radialGradient>
+        <linearGradient id="leafGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#d9b877"/>
+          <stop offset="100%" stop-color="#a87f35"/>
+        </linearGradient>
+        <linearGradient id="trunkGrad" x1="0" y1="1" x2="0" y2="0">
+          <stop offset="0%" stop-color="#7a5c28"/>
+          <stop offset="100%" stop-color="#9b7a3a"/>
+        </linearGradient>
+        <path id="leafP" d="M0 0 Q 7 -9 16 -9 Q 12 2 0 0 Z"/>
+        <g id="berries">
+          <circle cx="0" cy="0" r="2.6" fill="#14664b"/>
+          <circle cx="5.5" cy="-3" r="2.2" fill="#1e8a63"/>
+          <circle cx="-4.5" cy="-4" r="1.9" fill="#14664b"/>
+        </g>
+        <g id="sparkle">
+          <path d="M0 -5 L1.2 -1.2 L5 0 L1.2 1.2 L0 5 L-1.2 1.2 L-5 0 L-1.2 -1.2 Z" fill="#d9b877" opacity=".8"/>
+        </g>
+        <g id="sprig">
+          <path d="M0 0 Q 1.5 -8 0 -16" stroke="#8a6a33" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+          <path d="M0 -5 Q -8 -8 -12 -15 Q -4 -14 0 -8 Z" fill="url(#leafGrad)"/>
+          <path d="M0 -8 Q 8 -11 12 -18 Q 4 -17 0 -11 Z" fill="url(#leafGrad)"/>
+          <path d="M0 -16 Q -1 -24 4 -28 Q 5 -21 1 -16 Z" fill="url(#leafGrad)"/>
+        </g>
+        <g id="tendril">
+          <path d="M0 0 C 8 -6, 16 -6, 18 0 C 20 6, 14 10, 10 6 C 7 3, 10 -1, 13 1" fill="none" stroke="#9b7a3a" stroke-width="1.4" stroke-linecap="round"/>
+        </g>
+        <g id="flower">
+          <g fill="#e6c98a" stroke="#a87f35" stroke-width=".4">
+            <circle cx="0" cy="-3.4" r="2.1"/><circle cx="3.2" cy="-1" r="2.1"/><circle cx="2" cy="2.8" r="2.1"/><circle cx="-2" cy="2.8" r="2.1"/><circle cx="-3.2" cy="-1" r="2.1"/>
+          </g>
+          <circle r="1.6" fill="#14664b"/>
+        </g>
+        <g id="bird" stroke="#8a6a33" stroke-width="1.6" fill="none" stroke-linecap="round">
+          <path d="M -8 0 Q -4 -6 0 0"/>
+          <path d="M 0 0 Q 4 -6 8 0"/>
+        </g>
+        <g id="grass" stroke="#8a6a33" stroke-width="1.3" fill="none" stroke-linecap="round">
+          <path d="M0 0 C -1 -5, -3 -8, -6 -10"/>
+          <path d="M0 0 C 0 -6, 1 -10, 0 -14"/>
+          <path d="M0 0 C 1 -5, 3 -8, 6 -10"/>
+        </g>
+        <g id="rings">
+          <circle r="13" fill="#f7f1e7" stroke="#b98a3e" stroke-width=".8"/>
+          <circle cx="-3.6" cy="0" r="5.6" fill="none" stroke="#b98a3e" stroke-width="1.6"/>
+          <circle cx="3.6" cy="0" r="5.6" fill="none" stroke="#b98a3e" stroke-width="1.6"/>
+        </g>
+        <g id="heartClasp">
+          <circle r="13" fill="#f7f1e7" stroke="#b98a3e" stroke-width=".8"/>
+          <path d="M0 5.5 C -7 0.5, -5.5 -5.5, -1.8 -5.5 C -0.6 -5.5, 0 -4.6, 0 -3.8 C 0 -4.6, 0.6 -5.5, 1.8 -5.5 C 5.5 -5.5, 7 0.5, 0 5.5 Z" fill="#14664b"/>
+        </g>
+        <clipPath id="pc-olivier"><circle cx="0" cy="0" r="53"/></clipPath>
+        <clipPath id="pc-annie"><circle cx="0" cy="0" r="53"/></clipPath>
+        <clipPath id="pc-thomas"><circle cx="0" cy="0" r="41"/></clipPath>
+        <clipPath id="pc-ellie"><circle cx="0" cy="0" r="41"/></clipPath>
+        <clipPath id="pc-julien"><circle cx="0" cy="0" r="41"/></clipPath>
+        <clipPath id="pc-anastasia"><circle cx="0" cy="0" r="41"/></clipPath>
+        <clipPath id="pc-nicolas"><circle cx="0" cy="0" r="41"/></clipPath>
+        <clipPath id="pc-emma"><circle cx="0" cy="0" r="41"/></clipPath>
+        <clipPath id="pc-claire"><circle cx="0" cy="0" r="41"/></clipPath>
+        <clipPath id="pc-christian"><circle cx="0" cy="0" r="41"/></clipPath>
+        <clipPath id="pc-felix"><circle cx="0" cy="0" r="33"/></clipPath>
+        <clipPath id="pc-milena"><circle cx="0" cy="0" r="33"/></clipPath>
+        <clipPath id="pc-leia"><circle cx="0" cy="0" r="33"/></clipPath>
+        <clipPath id="pc-aurora"><circle cx="0" cy="0" r="33"/></clipPath>
+        <clipPath id="pc-belle"><circle cx="0" cy="0" r="33"/></clipPath>
+      </defs>
+
+      <!-- generation guides -->
+      <text class="tgen" transform="translate(30 320) rotate(-90)" text-anchor="middle"><tspan class="t-fr">Petits-enfants</tspan><tspan class="t-en">Grandchildren</tspan></text>
+      <text class="tgen" transform="translate(30 640) rotate(-90)" text-anchor="middle"><tspan class="t-fr">Enfants</tspan><tspan class="t-en">Children</tspan></text>
+      <text class="tgen" transform="translate(30 950) rotate(-90)" text-anchor="middle"><tspan class="t-fr">Les mariés</tspan><tspan class="t-en">The newlyweds</tspan></text>
+
+      <!-- trunk & roots -->
+      <path d="M 606 1108 C 612 1030, 608 950, 618 884 L 622 884 C 632 950, 628 1030, 634 1108 Z" fill="url(#trunkGrad)"/>
+      <path d="M 606 1104 C 570 1112, 540 1104, 512 1116" fill="none" stroke="#8a6a33" stroke-width="4" stroke-linecap="round"/>
+      <path d="M 634 1104 C 670 1112, 700 1104, 728 1116" fill="none" stroke="#8a6a33" stroke-width="4" stroke-linecap="round"/>
+      <path d="M 612 1108 C 600 1122, 580 1126, 566 1134" fill="none" stroke="#8a6a33" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M 628 1108 C 640 1122, 660 1126, 674 1134" fill="none" stroke="#8a6a33" stroke-width="2.5" stroke-linecap="round"/>
+
+      <!-- main branches -->
+      <g fill="none" stroke="#8a6a33" stroke-width="4.5" stroke-linecap="round">
+        <path d="M 620 885 C 540 840, 320 800, 200 652"/>
+        <path d="M 620 885 C 585 820, 520 760, 480 652"/>
+        <path d="M 620 885 C 655 820, 720 760, 760 652"/>
+        <path d="M 620 885 C 700 840, 920 800, 1040 652"/>
+      </g>
+      <!-- twigs to grandchildren -->
+      <g fill="none" stroke="#8a6a33" stroke-width="3" stroke-linecap="round">
+        <path d="M 200 596 C 185 520, 165 440, 150 356"/>
+        <path d="M 200 596 C 225 520, 245 440, 252 366"/>
+        <path d="M 480 596 C 478 520, 480 440, 480 356"/>
+        <path d="M 1040 596 C 1005 520, 965 440, 938 356"/>
+        <path d="M 1040 596 C 1040 520, 1040 420, 1040 336"/>
+        <path d="M 1040 596 C 1075 520, 1115 440, 1142 356"/>
+      </g>
+      <!-- nicolas & emma: leaf spray -->
+      <g fill="none" stroke="#8a6a33" stroke-width="2.5" stroke-linecap="round">
+        <path d="M 760 596 C 766 552, 752 512, 760 474"/>
+        <path d="M 760 520 C 744 508, 736 494, 734 480"/>
+        <path d="M 762 545 C 778 533, 786 519, 788 505"/>
+      </g>
+      <use href="#leafP" transform="translate(756 470) rotate(-100)" fill="url(#leafGrad)"/>
+      <use href="#leafP" transform="translate(766 478) rotate(-45) scale(.9)" fill="url(#leafGrad)"/>
+      <use href="#leafP" transform="translate(732 478) rotate(-135) scale(.85)" fill="url(#leafGrad)"/>
+      <use href="#leafP" transform="translate(790 503) rotate(-40) scale(.8)" fill="url(#leafGrad)"/>
+      <use href="#berries" transform="translate(748 492)"/>
+      <use href="#berries" transform="translate(776 522) scale(.9)"/>
+
+      <!-- foliage along branches -->
+      <use href="#leafP" transform="translate(430 806) rotate(-160)" fill="url(#leafGrad)"/>
+      <use href="#leafP" transform="translate(392 794) rotate(20) scale(.9)" fill="url(#leafGrad)"/>
+      <use href="#leafP" transform="translate(560 780) rotate(-120) scale(.95)" fill="url(#leafGrad)"/>
+      <use href="#leafP" transform="translate(542 828) rotate(60) scale(.85)" fill="url(#leafGrad)"/>
+      <use href="#leafP" transform="translate(690 776) rotate(-60) scale(.95)" fill="url(#leafGrad)"/>
+      <use href="#leafP" transform="translate(716 822) rotate(120) scale(.85)" fill="url(#leafGrad)"/>
+      <use href="#leafP" transform="translate(846 800) rotate(-20)" fill="url(#leafGrad)"/>
+      <use href="#leafP" transform="translate(890 812) rotate(160) scale(.9)" fill="url(#leafGrad)"/>
+      <use href="#leafP" transform="translate(172 470) rotate(-110) scale(.8)" fill="url(#leafGrad)"/>
+      <use href="#leafP" transform="translate(238 460) rotate(-70) scale(.8)" fill="url(#leafGrad)"/>
+      <use href="#leafP" transform="translate(470 470) rotate(-100) scale(.8)" fill="url(#leafGrad)"/>
+      <use href="#leafP" transform="translate(992 470) rotate(-120) scale(.8)" fill="url(#leafGrad)"/>
+      <use href="#leafP" transform="translate(1092 470) rotate(-60) scale(.8)" fill="url(#leafGrad)"/>
+      <use href="#berries" transform="translate(500 800)"/>
+      <use href="#berries" transform="translate(748 806) scale(.9)"/>
+      <use href="#berries" transform="translate(206 500) scale(.85)"/>
+      <use href="#berries" transform="translate(1046 500) scale(.85)"/>
+      <use href="#sparkle" transform="translate(320 720)"/>
+      <use href="#sparkle" transform="translate(930 716) scale(.8)"/>
+      <use href="#sparkle" transform="translate(620 300) scale(.9)"/>
+      <use href="#sparkle" transform="translate(240 252) scale(.7)"/>
+      <use href="#sparkle" transform="translate(1004 240) scale(.7)"/>
+      <use href="#sparkle" transform="translate(822 382) scale(.6)"/>
+
+      <!-- dense foliage pass -->
+      <use href="#sprig" transform="translate(340 786) rotate(-40)"/>
+      <use href="#sprig" transform="translate(900 786) rotate(40) scale(.9)"/>
+      <use href="#sprig" transform="translate(585 762) rotate(-14)"/>
+      <use href="#sprig" transform="translate(657 762) rotate(16) scale(.85)"/>
+      <use href="#sprig" transform="translate(176 502) rotate(-16) scale(.85)"/>
+      <use href="#sprig" transform="translate(1092 500) rotate(14) scale(.85)"/>
+      <use href="#sprig" transform="translate(468 486) rotate(-6) scale(.8)"/>
+      <use href="#sprig" transform="translate(246 462) rotate(24) scale(.7)"/>
+      <use href="#tendril" transform="translate(432 822)"/>
+      <use href="#tendril" transform="translate(838 818) scale(-1,1)"/>
+      <use href="#tendril" transform="translate(600 842) scale(.8)"/>
+      <use href="#tendril" transform="translate(262 548) scale(.7)"/>
+      <use href="#tendril" transform="translate(1006 546) scale(-.7,.7)"/>
+      <use href="#flower" transform="translate(368 802)"/>
+      <use href="#flower" transform="translate(884 796) scale(.9)"/>
+      <use href="#flower" transform="translate(620 548)"/>
+      <use href="#flower" transform="translate(210 482) scale(.85)"/>
+      <use href="#flower" transform="translate(1076 452) scale(.85)"/>
+      <use href="#flower" transform="translate(486 434) scale(.8)"/>
+      <use href="#flower" transform="translate(940 430) scale(.8)"/>
+      <use href="#leafP" transform="translate(168 432) rotate(-100) scale(.7)" fill="url(#leafGrad)"/>
+      <use href="#leafP" transform="translate(256 486) rotate(-58) scale(.7)" fill="url(#leafGrad)"/>
+      <use href="#leafP" transform="translate(474 548) rotate(-96) scale(.75)" fill="url(#leafGrad)"/>
+      <use href="#leafP" transform="translate(1030 548) rotate(-84) scale(.75)" fill="url(#leafGrad)"/>
+      <use href="#leafP" transform="translate(1116 452) rotate(-44) scale(.7)" fill="url(#leafGrad)"/>
+      <use href="#leafP" transform="translate(950 492) rotate(-122) scale(.7)" fill="url(#leafGrad)"/>
+      <use href="#leafP" transform="translate(614 812) rotate(-92)" fill="url(#leafGrad)"/>
+      <use href="#leafP" transform="translate(578 852) rotate(150) scale(.8)" fill="url(#leafGrad)"/>
+      <use href="#leafP" transform="translate(666 850) rotate(28) scale(.8)" fill="url(#leafGrad)"/>
+      <use href="#berries" transform="translate(398 794) scale(.85)"/>
+      <use href="#berries" transform="translate(648 802) scale(.9)"/>
+      <use href="#berries" transform="translate(172 548) scale(.8)"/>
+      <use href="#berries" transform="translate(1014 478) scale(.8)"/>
+      <use href="#berries" transform="translate(560 800) scale(.75)"/>
+      <use href="#bird" transform="translate(578 258)"/>
+      <use href="#bird" transform="translate(670 244) scale(.8)"/>
+      <use href="#grass" transform="translate(540 1114)"/>
+      <use href="#grass" transform="translate(700 1114)"/>
+      <use href="#grass" transform="translate(498 1124) scale(.8)"/>
+      <use href="#grass" transform="translate(744 1124) scale(.8)"/>
+
+      <!-- ===== grandchildren ===== -->
+      <g transform="translate(150 320)" data-person="felix">
+        <circle r="40" fill="none" stroke="#b98a3e" stroke-width="1" stroke-dasharray="1 4" opacity=".55"/>
+        <circle r="36" fill="url(#medGrad)" stroke="#b98a3e" stroke-width="1.4"/>
+        <text class="tinit" font-size="26" text-anchor="middle" dy="9">F</text>
+      </g>
+      <text class="tname" x="150" y="382" text-anchor="middle">Felix</text>
+
+      <g transform="translate(252 338)" data-person="bebe-2027">
+        <circle r="26" fill="#f9f4ea" stroke="#b98a3e" stroke-width="1.2" stroke-dasharray="3 3"/>
+        <g transform="translate(0 2)">
+          <path d="M0 -12 C 7 -6, 7 4, 0 12 C -7 4, -7 -6, 0 -12 Z" fill="#1e8a63" opacity=".9"/>
+          <path d="M 0 12 Q -8 6 -10 -2 Q -3 2 0 12 Z" fill="url(#leafGrad)"/>
+          <path d="M 0 12 Q 8 6 10 -2 Q 3 2 0 12 Z" fill="url(#leafGrad)"/>
+        </g>
+      </g>
+      <text class="tbud" x="252" y="392" text-anchor="middle"><tspan class="t-fr">Janvier 2027</tspan><tspan class="t-en">January 2027</tspan></text>
+
+      <g transform="translate(480 320)" data-person="milena">
+        <circle r="40" fill="none" stroke="#b98a3e" stroke-width="1" stroke-dasharray="1 4" opacity=".55"/>
+        <circle r="36" fill="url(#medGrad)" stroke="#b98a3e" stroke-width="1.4"/>
+        <text class="tinit" font-size="26" text-anchor="middle" dy="9">M</text>
+      </g>
+      <text class="tname" x="480" y="382" text-anchor="middle">Milena</text>
+
+      <g transform="translate(938 320)" data-person="leia">
+        <circle r="40" fill="none" stroke="#b98a3e" stroke-width="1" stroke-dasharray="1 4" opacity=".55"/>
+        <circle r="36" fill="url(#medGrad)" stroke="#b98a3e" stroke-width="1.4"/>
+        <text class="tinit" font-size="26" text-anchor="middle" dy="9">L</text>
+      </g>
+      <text class="tname" x="938" y="382" text-anchor="middle">Leia</text>
+
+      <g transform="translate(1040 300)" data-person="aurora">
+        <circle r="40" fill="none" stroke="#b98a3e" stroke-width="1" stroke-dasharray="1 4" opacity=".55"/>
+        <circle r="36" fill="url(#medGrad)" stroke="#b98a3e" stroke-width="1.4"/>
+        <text class="tinit" font-size="26" text-anchor="middle" dy="9">A</text>
+      </g>
+      <text class="tname" x="1040" y="362" text-anchor="middle">Aurora</text>
+
+      <g transform="translate(1142 320)" data-person="belle">
+        <circle r="40" fill="none" stroke="#b98a3e" stroke-width="1" stroke-dasharray="1 4" opacity=".55"/>
+        <circle r="36" fill="url(#medGrad)" stroke="#b98a3e" stroke-width="1.4"/>
+        <text class="tinit" font-size="26" text-anchor="middle" dy="9">B</text>
+      </g>
+      <text class="tname" x="1142" y="382" text-anchor="middle">Belle</text>
+
+      <!-- ===== children & partners ===== -->
+      <!-- Thomas & Ellie -->
+      <g transform="translate(160 640)" data-person="thomas">
+        <circle r="48" fill="none" stroke="#b98a3e" stroke-width="1" stroke-dasharray="1 4" opacity=".55"/>
+        <circle r="44" fill="url(#medGrad)" stroke="#b98a3e" stroke-width="1.5"/>
+        <text class="tinit" font-size="32" text-anchor="middle" dy="11">T</text>
+      </g>
+      <g transform="translate(240 640)" data-person="ellie">
+        <circle r="48" fill="none" stroke="#b98a3e" stroke-width="1" stroke-dasharray="1 4" opacity=".55"/>
+        <circle r="44" fill="url(#medGrad)" stroke="#b98a3e" stroke-width="1.5"/>
+        <text class="tinit" font-size="32" text-anchor="middle" dy="11">E</text>
+      </g>
+      <use href="#rings" transform="translate(200 640)"/>
+      <text class="tname" x="200" y="712" text-anchor="middle">Thomas Paris</text>
+      <text class="tname" x="200" y="734" text-anchor="middle">&amp; Ellie Paris <tspan class="tnee">née Chandet</tspan></text>
+
+      <!-- Julien & Anastasia -->
+      <g transform="translate(440 640)" data-person="julien">
+        <circle r="48" fill="none" stroke="#b98a3e" stroke-width="1" stroke-dasharray="1 4" opacity=".55"/>
+        <circle r="44" fill="url(#medGrad)" stroke="#b98a3e" stroke-width="1.5"/>
+        <text class="tinit" font-size="32" text-anchor="middle" dy="11">J</text>
+      </g>
+      <g transform="translate(520 640)" data-person="anastasia">
+        <circle r="48" fill="none" stroke="#b98a3e" stroke-width="1" stroke-dasharray="1 4" opacity=".55"/>
+        <circle r="44" fill="url(#medGrad)" stroke="#b98a3e" stroke-width="1.5"/>
+        <text class="tinit" font-size="32" text-anchor="middle" dy="11">A</text>
+      </g>
+      <use href="#heartClasp" transform="translate(480 640)"/>
+      <text class="tname" x="480" y="712" text-anchor="middle">Julien Paris</text>
+      <text class="tname" x="480" y="734" text-anchor="middle">&amp; Anastasia Medvedev</text>
+
+      <!-- Nicolas & Emma -->
+      <g transform="translate(720 640)" data-person="nicolas">
+        <circle r="48" fill="none" stroke="#b98a3e" stroke-width="1" stroke-dasharray="1 4" opacity=".55"/>
+        <circle r="44" fill="url(#medGrad)" stroke="#b98a3e" stroke-width="1.5"/>
+        <text class="tinit" font-size="32" text-anchor="middle" dy="11">N</text>
+      </g>
+      <g transform="translate(800 640)" data-person="emma">
+        <circle r="48" fill="none" stroke="#b98a3e" stroke-width="1" stroke-dasharray="1 4" opacity=".55"/>
+        <circle r="44" fill="url(#medGrad)" stroke="#b98a3e" stroke-width="1.5"/>
+        <text class="tinit" font-size="32" text-anchor="middle" dy="11">E</text>
+      </g>
+      <use href="#rings" transform="translate(760 640)"/>
+      <text class="tname" x="760" y="712" text-anchor="middle">Nicolas Paris</text>
+      <text class="tname" x="760" y="734" text-anchor="middle">&amp; Emma Paris <tspan class="tnee">née Dalen</tspan></text>
+
+      <!-- Claire & Christian -->
+      <g transform="translate(1000 640)" data-person="claire">
+        <circle r="48" fill="none" stroke="#b98a3e" stroke-width="1" stroke-dasharray="1 4" opacity=".55"/>
+        <circle r="44" fill="url(#medGrad)" stroke="#b98a3e" stroke-width="1.5"/>
+        <text class="tinit" font-size="32" text-anchor="middle" dy="11">C</text>
+      </g>
+      <g transform="translate(1080 640)" data-person="christian">
+        <circle r="48" fill="none" stroke="#b98a3e" stroke-width="1" stroke-dasharray="1 4" opacity=".55"/>
+        <circle r="44" fill="url(#medGrad)" stroke="#b98a3e" stroke-width="1.5"/>
+        <text class="tinit" font-size="32" text-anchor="middle" dy="11">C</text>
+      </g>
+      <use href="#rings" transform="translate(1040 640)"/>
+      <text class="tname" x="1040" y="712" text-anchor="middle">Claire Clark <tspan class="tnee">née Paris</tspan></text>
+      <text class="tname" x="1040" y="734" text-anchor="middle">&amp; Christian Clark</text>
+
+      <!-- ===== Olivier & Annie ===== -->
+      <g transform="translate(568 950)" data-person="olivier">
+        <circle r="61" fill="none" stroke="#b98a3e" stroke-width="1" stroke-dasharray="1 4" opacity=".6"/>
+        <circle r="56" fill="url(#medGrad)" stroke="#b98a3e" stroke-width="1.8"/>
+        <text class="tinit" font-size="40" text-anchor="middle" dy="14">O</text>
+      </g>
+      <g transform="translate(672 950)" data-person="annie">
+        <circle r="61" fill="none" stroke="#b98a3e" stroke-width="1" stroke-dasharray="1 4" opacity=".6"/>
+        <circle r="56" fill="url(#medGrad)" stroke="#b98a3e" stroke-width="1.8"/>
+        <text class="tinit" font-size="40" text-anchor="middle" dy="14">A</text>
+      </g>
+      <use href="#rings" transform="translate(620 950)"/>
+      <text class="tname" x="568" y="1036" text-anchor="middle">Olivier Paris</text>
+      <text class="tname" x="672" y="1036" text-anchor="middle">Annie Paris</text>
+
+      <!-- 1986 ribbon -->
+      <path d="M 560 1052 L 680 1052 L 680 1088 L 560 1088 Z" fill="#14664b"/>
+      <path d="M 560 1052 L 534 1070 L 560 1088 Z" fill="#0a3325"/>
+      <path d="M 680 1052 L 706 1070 L 680 1088 Z" fill="#0a3325"/>
+      <text class="tyear" x="620" y="1075" text-anchor="middle">1986</text>
+    </svg>
+    </div>
+    <div class="tree-hint reveal"><span class="t-fr">Faites glisser l'arbre →</span><span class="t-en">Drag the tree →</span></div>
+  </div>
+</section>
+
+<!-- ============ FINALE ============ -->
+<section id="finale">
+  <div class="wrap">
+    <div class="arch reveal"><img src="assets/photo-1.jpg" alt="Olivier et Annie, 1986" loading="lazy" decoding="async"></div>
+    <h2 class="reveal" style="--d:.1s">
+      <span class="t-fr">Joyeuses noces d'émeraude</span>
+      <span class="t-en">Happy emerald wedding</span>
+    </h2>
+    <p class="msg reveal" style="--d:.2s">
+      <span class="t-fr">Olivier, Annie — quarante ans après le premier oui, vous nous montrez chaque jour à quoi ressemble un amour qui dure. Merci pour l'exemple, merci pour tout. Voici quarante ans de rires, de patience et de tendresse — et ce n'est que le début.</span>
+      <span class="t-en">Olivier, Annie — forty years after that first "yes", you show us every day what lasting love looks like. Thank you for the example, thank you for everything. Here's to forty years of laughter, patience and tenderness — and this is only the beginning.</span>
+    </p>
+    <!-- Personnalisez la signature ci-dessous / customise the signature below -->
+    <div class="sign reveal" style="--d:.3s">
+      <span class="t-fr">Avec tout notre amour — Thomas, Julien, Nicolas &amp; Claire</span>
+      <span class="t-en">With all our love — Thomas, Julien, Nicolas &amp; Claire</span>
+    </div>
+    <div class="sign-sub reveal" style="--d:.34s">
+      <span class="t-fr">et vos petits-enfants&nbsp;: Felix, Milena, Leia, Aurora, Belle… et bientôt un de plus</span>
+      <span class="t-en">and your grandchildren: Felix, Milena, Leia, Aurora, Belle… and one more on the way</span>
+    </div>
+    <div class="hearts reveal" style="--d:.38s" aria-hidden="true">♥ ♥ ♥ ♥ ♥ ♡</div>
+  </div>
+</section>
+
+<footer>
+  <div class="rn">MCMLXXXVI · MMXXVI</div>
+  <div style="margin-top:8px"><span class="t-fr">Faite avec amour</span><span class="t-en">Made with love</span></div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ---------- language ---------- */
+  window.setLang = function(l){
+    document.documentElement.setAttribute("data-lang", l);
+    document.documentElement.setAttribute("lang", l);
+    document.getElementById("btn-fr").setAttribute("aria-pressed", l==="fr");
+    document.getElementById("btn-en").setAttribute("aria-pressed", l==="en");
+    try{ localStorage.setItem("oa-lang", l); }catch(e){}
+  };
+  try{
+    var saved = localStorage.getItem("oa-lang");
+    if(saved==="en"||saved==="fr") setLang(saved);
+  }catch(e){}
+
+  /* ---------- preloader ---------- */
+  var veil = document.getElementById("veil");
+  var heroStill = document.getElementById("heroStill");
+  function lift(){ if(veil) veil.classList.add("gone"); }
+  if(heroStill.complete) setTimeout(lift, 500);
+  else heroStill.addEventListener("load", function(){ setTimeout(lift, 400); });
+  setTimeout(lift, 3200); // hard fallback
+
+  /* ---------- hero still -> video morph ---------- */
+  var hero = document.getElementById("hero");
+  var video = document.getElementById("heroVideo");
+  var ctrls = document.getElementById("heroCtrls");
+  var played = false;
+
+  function heroPlay(){
+    video.muted = true; // the clip has no audio track
+    video.currentTime = 0;
+    var p = video.play();
+    if(p && p.catch) p.catch(function(){ /* autoplay refused: keep still */ });
+    hero.classList.add("playing");
+  }
+  window.heroPlay = heroPlay;
+
+  video.addEventListener("playing", function(){ ctrls.classList.add("show"); });
+  video.addEventListener("ended", function(){
+    hero.classList.remove("playing"); // fade back to the remastered still
+  });
+
+  function autoStart(){
+    if(played || reduced) { ctrls.classList.add("show"); return; }
+    played = true;
+    setTimeout(function(){ heroPlay(); }, 1600);
+  }
+  if(video.readyState >= 3) autoStart();
+  else{
+    video.addEventListener("canplaythrough", autoStart, {once:true});
+    setTimeout(autoStart, 4500); // start anyway once buffered enough
+  }
+
+  /* ---------- scroll progress ---------- */
+  var bar = document.getElementById("progress");
+  function onScroll(){
+    var h = document.documentElement;
+    var max = h.scrollHeight - h.clientHeight;
+    bar.style.width = (max>0 ? (h.scrollTop/max)*100 : 0) + "%";
+  }
+  addEventListener("scroll", onScroll, {passive:true}); onScroll();
+
+  /* ---------- reveals ---------- */
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(en.isIntersecting){ en.target.classList.add("in"); io.unobserve(en.target); }
+    });
+  }, {threshold:.16, rootMargin:"0px 0px -6% 0px"});
+  document.querySelectorAll(".reveal").forEach(function(el){ io.observe(el); });
+
+  /* ---------- count-up 40 ---------- */
+  var count = document.getElementById("countUp");
+  var counted = false;
+  var io40 = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(!en.isIntersecting || counted) return;
+      counted = true;
+      if(reduced){ count.textContent = "40"; return; }
+      var t0 = null, DUR = 1800;
+      function step(t){
+        if(!t0) t0 = t;
+        var k = Math.min(1,(t-t0)/DUR);
+        var e = 1 - Math.pow(1-k, 3); // ease-out cubic
+        count.textContent = String(Math.round(e*40));
+        if(k<1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    });
+  }, {threshold:.5});
+  io40.observe(count);
+
+  /* ---------- Ken Burns drift on chapter photos ---------- */
+  if(!reduced){
+    var kbEls = Array.prototype.slice.call(document.querySelectorAll("[data-kb]"));
+    var ticking = false;
+    function kb(){
+      ticking = false;
+      var vh = innerHeight;
+      kbEls.forEach(function(img){
+        var r = img.getBoundingClientRect();
+        if(r.bottom < -80 || r.top > vh+80) return;
+        var prog = (r.top + r.height/2 - vh/2) / vh;   // -0.5 .. 0.5 roughly
+        img.style.transform = "scale(1.08) translateY(" + (prog*3.2) + "%)";
+      });
+    }
+    addEventListener("scroll", function(){
+      if(!ticking){ ticking = true; requestAnimationFrame(kb); }
+    }, {passive:true});
+    kb();
+  }
+
+  /* ---------- before/after sliders ---------- */
+  document.querySelectorAll("[data-ba]").forEach(function(box){
+    var range = box.querySelector("input[type=range]");
+    function set(v){ box.style.setProperty("--pos", v + "%"); }
+    range.addEventListener("input", function(){ set(range.value); });
+    set(range.value);
+  });
+
+  /* ---------- gold dust (CSS-driven; JS only seeds the particles) ---------- */
+  var dust = document.getElementById("dust");
+  if(!reduced && dust){
+    var N = innerWidth < 700 ? 14 : 24;
+    var frag = document.createDocumentFragment();
+    for(var i=0;i<N;i++){
+      var s = document.createElement("i");
+      var sz = (3 + Math.random()*6).toFixed(1);
+      s.style.left = (Math.random()*100).toFixed(2) + "%";
+      s.style.width = sz + "px";
+      s.style.height = sz + "px";
+      s.style.setProperty("--dur", (16 + Math.random()*18).toFixed(1) + "s");
+      s.style.setProperty("--del", (-Math.random()*34).toFixed(1) + "s");
+      s.style.setProperty("--a", (.25 + Math.random()*.45).toFixed(2));
+      frag.appendChild(s);
+    }
+    dust.appendChild(frag);
+  }
+})();
+</script>
+</body>
+</html>
