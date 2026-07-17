@@ -7,9 +7,12 @@
 <meta name="description" content="1986–2026. Quarante ans d'amour — Olivier &amp; Annie. / Forty years of love.">
 <meta property="og:title" content="Olivier &amp; Annie — Noces d'Émeraude">
 <meta property="og:description" content="1986–2026 · Quarante ans d'amour">
-<meta property="og:image" content="https://tparis7.github.io/noces-emeraude/assets/photo-1.jpg">
+<meta property="og:image" content="https://tparis7.github.io/noces-emeraude/assets/og-card.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta property="og:url" content="https://tparis7.github.io/noces-emeraude/">
 <meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#0e1a15">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M32 56C18 44 8 35 8 24a13 13 0 0 1 24-7 13 13 0 0 1 24 7c0 11-10 20-24 32z' fill='%2314664b'/%3E%3C/svg%3E">
 <style>
@@ -89,15 +92,20 @@
   #dust{position:fixed;inset:0;z-index:80;pointer-events:none;overflow:hidden}
   #dust i{
     position:absolute;bottom:-4vh;border-radius:50%;
-    background:radial-gradient(circle, rgba(217,184,119,.75) 0%, rgba(217,184,119,0) 68%);
+    background:radial-gradient(circle, rgba(255,246,220,.98) 0%, rgba(228,193,120,.8) 42%, rgba(198,158,86,0) 72%);
+    box-shadow:0 0 7px 1.5px rgba(220,184,110,.5);
     animation:rise var(--dur,22s) linear var(--del,0s) infinite;
     opacity:0;will-change:transform,opacity;
   }
+  /* rise carries a shimmer: opacity dips and peaks so each mote twinkles as it drifts */
   @keyframes rise{
-    0%{transform:translate3d(0,0,0);opacity:0}
-    10%{opacity:var(--a,.5)}
-    50%{transform:translate3d(16px,-56vh,0);opacity:calc(var(--a,.5)*.7)}
-    100%{transform:translate3d(-12px,-112vh,0);opacity:0}
+    0%{transform:translate3d(0,0,0) scale(.7);opacity:0}
+    8%{opacity:var(--a,.7)}
+    24%{opacity:calc(var(--a,.7)*.5)}
+    40%{transform:translate3d(14px,-42vh,0) scale(1.05);opacity:var(--a,.7)}
+    62%{opacity:calc(var(--a,.7)*.6)}
+    80%{transform:translate3d(-16px,-88vh,0) scale(.95);opacity:calc(var(--a,.7)*.95)}
+    100%{transform:translate3d(-8px,-114vh,0) scale(.7);opacity:0}
   }
   @media (prefers-reduced-motion: reduce){#dust{display:none}}
 
@@ -1080,17 +1088,18 @@
   /* ---------- gold dust (CSS-driven; JS only seeds the particles) ---------- */
   var dust = document.getElementById("dust");
   if(!reduced && dust){
-    var N = innerWidth < 700 ? 14 : 24;
+    var vw = window.innerWidth || document.documentElement.clientWidth || 1280;
+    var N = vw < 700 ? 24 : 42;
     var frag = document.createDocumentFragment();
     for(var i=0;i<N;i++){
       var s = document.createElement("i");
-      var sz = (3 + Math.random()*6).toFixed(1);
+      var sz = (3.5 + Math.random()*7).toFixed(1);
       s.style.left = (Math.random()*100).toFixed(2) + "%";
       s.style.width = sz + "px";
       s.style.height = sz + "px";
-      s.style.setProperty("--dur", (16 + Math.random()*18).toFixed(1) + "s");
+      s.style.setProperty("--dur", (15 + Math.random()*16).toFixed(1) + "s");
       s.style.setProperty("--del", (-Math.random()*34).toFixed(1) + "s");
-      s.style.setProperty("--a", (.25 + Math.random()*.45).toFixed(2));
+      s.style.setProperty("--a", (.45 + Math.random()*.5).toFixed(2));
       frag.appendChild(s);
     }
     dust.appendChild(frag);
